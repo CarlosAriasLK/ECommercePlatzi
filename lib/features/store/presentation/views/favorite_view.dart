@@ -1,5 +1,5 @@
 
-import 'package:ecommerce_platzi/presentation/widgets/shared/item_card.dart';
+import 'package:ecommerce_platzi/features/store/presentation/widgets/shared/item_card.dart';
 import 'package:flutter/material.dart';
 
 final clothesFavorites = [
@@ -23,16 +23,16 @@ class FavoriteView extends StatelessWidget {
         slivers: [
 
           SliverGrid(
-
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent (
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
-              maxCrossAxisExtent: 200,
+              childAspectRatio: 0.7
             ),
 
             delegate: SliverChildBuilderDelegate(
               childCount: clothesFavorites.length,
-                  (context, index) {
+                (context, index) {
                 return SizedBox(
                   width: 200,
                   height: 200,

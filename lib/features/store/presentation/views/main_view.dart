@@ -1,8 +1,9 @@
 
 import 'package:card_swiper/card_swiper.dart';
-import 'package:ecommerce_platzi/presentation/widgets/shared/item_card.dart';
+import 'package:ecommerce_platzi/features/store/presentation/widgets/shared/item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:search_page/search_page.dart';
 
 class MainView extends StatelessWidget {
   const MainView({super.key});
@@ -10,22 +11,86 @@ class MainView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('ECommprarse', style: TextStyle(fontWeight: FontWeight.bold),),
+        actions: [
+          _IconSearch(),
+
+          Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {
+                Scaffold.of(context).openEndDrawer();
+              },
+            ),
+          ),
+
+        ],
+      ),
+
+      endDrawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              child: Text('Cart', style: TextStyle( fontSize: 30, fontWeight: FontWeight.bold ),),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: FilledButton(
+                style: ButtonStyle(
+                    shape: WidgetStatePropertyAll(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadiusGeometry.circular(7)
+                        )
+                    )
+                ),
+                onPressed: (){},
+                child: Text('Clear')
+              ),
+            ),
+            
+            
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.7,
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: productsTemporary.length,
+                itemBuilder: (context, index) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: ItemCard(idImage: index, imagesUrl: productsTemporary),
+                ),
+              ),
+            ),
+
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.08,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FilledButton(
+                  style: ButtonStyle(
+                    shape: WidgetStatePropertyAll(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadiusGeometry.circular(7)
+                      )
+                    )
+                  ),
+                  onPressed: (){},
+                  child: Text('Check out')
+                ),
+              ),
+
+            )
+
+
+          ],
+        ),
+      ),
 
       body: CustomScrollView(
         slivers: [
-
-          SliverAppBar(
-            title: Text('ECommprarse'),
-            floating: true,
-            actions: [
-              IconButton(
-                  onPressed: (){}, icon: Icon(Icons.search),
-              ),
-              IconButton(
-                  onPressed: (){}, icon: Icon(Icons.shopping_cart),
-              ),
-            ],
-          ),
 
           SliverList(
               delegate: SliverChildBuilderDelegate(
@@ -110,7 +175,7 @@ final productsTemporary = [
 ];
 
 class _CollectionSlide extends StatelessWidget {
-  const _CollectionSlide({super.key});
+  const _CollectionSlide();
 
   @override
   Widget build(BuildContext context) {
@@ -165,6 +230,63 @@ class _CustomListViewStore extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+
+class Person {
+  final String name;
+  final String reference;
+  final int price;
+
+  Person(this.name, this.reference, this.price);
+}
+
+final people = [
+  Person('Jeans', 'break', 120),
+  Person('Jeans', 'break', 120),
+  Person('Jeans', 'break', 120),
+];
+
+class _IconSearch extends StatelessWidget {
+  const _IconSearch();
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: () => showSearch(
+        context: context,
+        delegate: SearchPage<Person>(
+          items: people,
+          searchLabel: 'Search Product',
+          suggestion: Center(
+            child: Text('Filter product by name, reference or price'),
+          ),
+          failure: Center(
+            child: Text('No product found'),
+          ),
+          filter: (person) => [
+            person.name,
+            person.reference,
+            person.price.toString(),
+          ],
+          builder: (person) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            child: GestureDetector(
+              onTap: () => context.push('/products-details/1'),
+              child: ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusGeometry.circular(7)
+                ),
+                title: Text(person.name),
+                subtitle: Text(person.reference),
+                trailing: Text('${person.price} '),
+              ),
+            ),
+          ),
+        ),
+      ), icon: Icon(Icons.search),
     );
   }
 }
