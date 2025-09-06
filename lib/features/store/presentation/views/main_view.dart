@@ -1,7 +1,9 @@
 
 import 'package:card_swiper/card_swiper.dart';
+import 'package:ecommerce_platzi/features/store/presentation/providers/product_provider.dart';
 import 'package:ecommerce_platzi/features/store/presentation/widgets/shared/item_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:search_page/search_page.dart';
 
@@ -57,10 +59,10 @@ class MainView extends StatelessWidget {
               height: MediaQuery.of(context).size.height * 0.7,
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
-                itemCount: productsTemporary.length,
+                itemCount: 2,
                 itemBuilder: (context, index) => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: ItemCard(idImage: index, imagesUrl: productsTemporary),
+                  // child: ItemCard(idImage: index, imagesUrl: productsTemporary),
                 ),
               ),
             ),
@@ -109,21 +111,21 @@ class MainView extends StatelessWidget {
 
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                        child: Text('Clothes', style: TextStyle( fontWeight: FontWeight.bold, fontSize: 17 ),),
+                        child: Text('Shoes', style: TextStyle( fontWeight: FontWeight.bold, fontSize: 17 ),),
                       ),
-                      _CustomListViewStore(),
+                      _CustomListViewStore(slug: '4',),
 
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                        child: Text('Shoes', style: TextStyle( fontWeight: FontWeight.bold, fontSize: 17 ),),
+                        child: Text('Forniture', style: TextStyle( fontWeight: FontWeight.bold, fontSize: 17 ),),
                       ),
-                      _CustomListViewStore(),
+                      _CustomListViewStore(slug: '3',),
 
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                         child: Text('Electronics', style: TextStyle( fontWeight: FontWeight.bold, fontSize: 17 ),),
                       ),
-                      _CustomListViewStore(),
+                      _CustomListViewStore(slug: '2',),
 
                       SizedBox(height: 50,)
 
@@ -168,71 +170,84 @@ class _CategoriesSlide extends StatelessWidget {
 }
 
 
-final productsTemporary = [
-  'https://i.imgur.com/QkIa5tT.jpeg',
-  'https://i.imgur.com/1twoaDy.jpeg',
-  'https://i.imgur.com/cHddUCu.jpeg'
-];
-
-class _CollectionSlide extends StatelessWidget {
+class _CollectionSlide extends ConsumerWidget {
   const _CollectionSlide();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
 
     final size = MediaQuery.of(context).size;
+    final asyncProducts = ref.watch( productsProvider );
 
     return SizedBox(
       height: size.height * 0.4,
-      child: Swiper(
-        scale: 0.8,
-        itemCount: productsTemporary.length,
-        autoplay: true,
-        itemBuilder: (context, index) => Padding(
-          padding: EdgeInsetsGeometry.symmetric(horizontal: 10),
-          child: FadeInImage(
-              placeholder: AssetImage('assets/images/not-found.jpg'),
-              image: NetworkImage(productsTemporary[index]),
-          ),
-        ),
-      ),
+      child: asyncProducts.when(
+        data: (products) {
+          return Swiper(
+            scale: 0.8,
+            itemCount: products.length,
+            autoplay: true,
+            itemBuilder: (context, index) {
+              final product = products[index];
+              return Padding(
+                padding: EdgeInsetsGeometry.symmetric(horizontal: 10),
+                child: FadeInImage(
+                  placeholder: AssetImage('assets/images/not-found.jpg'),
+                  image: NetworkImage(product.images.first),
+                ),
+              );
+            },
+          );
+        },
+        error: (error, stackTrace) => Center(child: Text('Erorr: $error'),),
+        loading: () => Center(child: CircularProgressIndicator(),),
+      )
     );
   }
 }
 
-final clothes = [
-  'https://i.imgur.com/ZKGofuB.jpeg',
-  'https://i.imgur.com/wXuQ7bm.jpeg',
-  'https://i.imgur.com/R3iobJA.jpeg',
-  'https://i.imgur.com/9LFjwpI.jpeg'
-];
-
-class _CustomListViewStore extends StatelessWidget {
-  const _CustomListViewStore();
+class _CustomListViewStore extends ConsumerWidget {
+  final String slug;
+  const _CustomListViewStore({required this.slug});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    return FutureBuilder(
+      future: ref.read(productsProvider.notifier).loadProductByCategory(slug),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-    return GestureDetector(
-      onTap: () => context.push('/products-details/1'),
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.25,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: clothes.length,
-          itemBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              height: 100,
-              width: 150,
-              child: ItemCard( idImage: index, imagesUrl: clothes, ),
-            ),
+        if (snapshot.hasError) {
+          return Text("Error: ${snapshot.error}");
+        }
+
+        final products = snapshot.data ?? [];
+
+        return SizedBox(
+          height: MediaQuery.of(context).size.height * 0.25,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: products.length,
+            itemBuilder: (context, index) {
+              final product = products[index];
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  height: 100,
+                  width: 150,
+                  child: ItemCard(imageUrl: product.images.first, name: product.title, price: product.price,),
+                ),
+              );
+            },
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
+
 
 
 class Person {

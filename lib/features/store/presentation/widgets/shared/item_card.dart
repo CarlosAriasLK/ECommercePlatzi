@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 
 
 class ItemCard extends StatelessWidget {
-  final List<String> imagesUrl;
-  final int idImage;
-  const ItemCard({ super.key, required this.idImage, required this.imagesUrl });
+  final String imageUrl;
+  final String name;
+  final double price;
+  const ItemCard({ super.key, required this.imageUrl, required this.name, required this.price });
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class ItemCard extends StatelessWidget {
                 child: FadeInImage(
                   fit: BoxFit.cover,
                   placeholder: const AssetImage('assets/images/not-found.jpg'),
-                  image: NetworkImage( imagesUrl[idImage] ),
+                  image: NetworkImage( imageUrl ),
                 ),
               ),
             ),
@@ -36,10 +37,10 @@ class ItemCard extends StatelessWidget {
                 color: Colors.black12,
                 borderRadius: BorderRadius.vertical(bottom: Radius.circular(7)),
               ),
-              child: const Column(
+              child: Column(
                 children: [
-                  Text('Name', style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text('Price 2000'),
+                  Text(name, style: TextStyle(fontWeight: FontWeight.bold), maxLines: 1, overflow: TextOverflow.ellipsis,),
+                  Text( price.toString() ),
                 ],
               ),
             ),

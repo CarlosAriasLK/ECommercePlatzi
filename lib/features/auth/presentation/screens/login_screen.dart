@@ -17,8 +17,13 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
+
+    final status = ref.watch( authNotifierProvider );
+
     return Scaffold(
 
       body: FadeInDown(
@@ -42,6 +47,7 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: Form(
+                key: _formKey,
                 child: Column(
                   children: [
                     TextFormField(
@@ -50,14 +56,25 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                         label: Text('Email'),
                         border: OutlineInputBorder()
                       ),
+                      validator: (value) {
+                        if( value == null || value.isEmpty ) return 'Email required';
+                        if( !value.contains('@') ) return 'Email not valid';
+                        return null;
+                      },
                     ),
                     SizedBox(height: 10,),
                     TextFormField(
                       controller: passwordController,
+                      obscureText: true,
                       decoration: InputDecoration(
                         label: Text('Password'),
                           border: OutlineInputBorder()
                       ),
+                      validator: (value) {
+                        if( value == null || value.isEmpty ) return "Password required";
+                        if( value.length < 6 ) return 'Password not valid';
+                        return null;
+                      },
                     )
                   ],
                 )
@@ -78,7 +95,13 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                       )
                     )
                   ),
-                  onPressed: (){
+                  onPressed: () {
+                    if( _formKey.currentState!.validate() ) {
+                      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar( duration: Duration(milliseconds: 500), content: Text('Processing Data')),
+                      );
+                    }
                     ref.read( authNotifierProvider.notifier ).login(emailController.text, passwordController.text);
                   },
                   child: Text('Log in')

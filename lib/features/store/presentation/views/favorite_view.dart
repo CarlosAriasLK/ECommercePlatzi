@@ -38,7 +38,7 @@ class FavoriteView extends StatelessWidget {
                   height: 200,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: ItemCard(idImage: index, imagesUrl: clothesFavorites,),
+                    // child: ItemCard(idImage: index, imagesUrl: clothesFavorites,),
                   ),
                 );
               },
