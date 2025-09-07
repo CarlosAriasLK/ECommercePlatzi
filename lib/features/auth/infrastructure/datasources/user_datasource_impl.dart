@@ -3,6 +3,7 @@
 
 import 'package:ecommerce_platzi/features/auth/domain/datasources/user_datasources.dart';
 import 'package:dio/dio.dart';
+import 'package:ecommerce_platzi/features/shared/infrastructure/errors/custom_error.dart';
 import 'package:ecommerce_platzi/features/shared/infrastructure/shared_preferences_impl.dart';
 
 class UserDatasourceImpl implements UserDatasources {
@@ -26,8 +27,14 @@ class UserDatasourceImpl implements UserDatasources {
       }
       return null;
 
-    } catch (e) {
-      throw Exception('Error in log in');
+    } on DioException catch (e) {
+      if( e.type == DioExceptionType.connectionTimeout ) {
+        throw CustomError(error: 'Check internet connection');
+      }
+      if( e.response!.statusCode == 401 ){
+        throw CustomError(error: 'Error in credentials');
+      }
+      throw Exception('Error: Unexpected error');
     }
   }
 

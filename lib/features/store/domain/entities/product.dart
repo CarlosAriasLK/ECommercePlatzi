@@ -7,17 +7,34 @@ class Product {
   final String description;
   final String slug;
   final List<String> images;
+  final int quantity;
 
-  Product({required this.id, required this.title, required this.price, required this.description, required this.slug, required this.images});
-
+  Product({required this.id, required this.title, required this.price, required this.description, required this.slug, required this.images, this.quantity = 1});
 
   factory Product.fromJson( Map<String, dynamic > json ) => Product(
-      id: (json['id'] as num).toInt(),
-      title: json['title'],
-      price: (json['price'] as num).toDouble(),
-      description: json['description'],
-      slug: json['slug'],
-      images: json['slug'] != null ? List<String>.from( json['images']) : ['https://cdn-icons-png.freepik.com/512/2748/2748558.png']
+    id: (json['id'] as num).toInt(),
+    title: json['title'],
+    price: (json['price'] as num).toDouble(),
+    description: json['description'],
+    slug: json['slug'],
+    images: json['slug'] != null ? List<String>.from( json['images']) : ['https://cdn-icons-png.freepik.com/512/2748/2748558.png']
+  );
+
+  copyWith({
+    int? id,
+    String? title,
+    double? price,
+    String? description,
+    String? slug,
+    List<String>? images,
+    int? quantity,
+  }) => Product(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      price: price ?? this.price,
+      description: description ?? this.description,
+      slug: slug ?? this.slug,
+      images: images ?? this.images
   );
 
 }

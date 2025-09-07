@@ -30,66 +30,7 @@ class MainView extends StatelessWidget {
         ],
       ),
 
-      endDrawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              child: Text('Cart', style: TextStyle( fontSize: 30, fontWeight: FontWeight.bold ),),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: FilledButton(
-                style: ButtonStyle(
-                    shape: WidgetStatePropertyAll(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadiusGeometry.circular(7)
-                        )
-                    )
-                ),
-                onPressed: (){},
-                child: Text('Clear')
-              ),
-            ),
-            
-            
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.7,
-              child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                itemCount: 2,
-                itemBuilder: (context, index) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  // child: ItemCard(idImage: index, imagesUrl: productsTemporary),
-                ),
-              ),
-            ),
-
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.08,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: FilledButton(
-                  style: ButtonStyle(
-                    shape: WidgetStatePropertyAll(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadiusGeometry.circular(7)
-                      )
-                    )
-                  ),
-                  onPressed: (){},
-                  child: Text('Check out')
-                ),
-              ),
-
-            )
-
-
-          ],
-        ),
-      ),
+      endDrawer: EndDrawer(),
 
       body: CustomScrollView(
         slivers: [
@@ -177,7 +118,7 @@ class _CollectionSlide extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
 
     final size = MediaQuery.of(context).size;
-    final asyncProducts = ref.watch( productsProvider );
+    final asyncProducts = ref.watch( getAllProductsProvider );
 
     return SizedBox(
       height: size.height * 0.4,
@@ -212,38 +153,31 @@ class _CustomListViewStore extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return FutureBuilder(
-      future: ref.read(productsProvider.notifier).loadProductByCategory(slug),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
+    final asyncProductByCategory = ref.watch( loadProductByCategoryProvider(slug) );
 
-        if (snapshot.hasError) {
-          return Text("Error: ${snapshot.error}");
-        }
-
-        final products = snapshot.data ?? [];
-
-        return SizedBox(
-          height: MediaQuery.of(context).size.height * 0.25,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: products.length,
-            itemBuilder: (context, index) {
-              final product = products[index];
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  height: 100,
-                  width: 150,
-                  child: ItemCard(imageUrl: product.images.first, name: product.title, price: product.price,),
-                ),
-              );
-            },
-          ),
-        );
-      },
+    return asyncProductByCategory.when(
+        data: (products) {
+          return SizedBox(
+            height: MediaQuery.of(context).size.height * 0.25,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: products.length,
+              itemBuilder: (context, index) {
+                final product = products[index];
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    height: 100,
+                    width: 150,
+                    child: ItemCard(imageUrl: product.images.first, name: product.title, price: product.price, productId: product.id,),
+                  ),
+                );
+              },
+            ),
+          );
+        },
+        error: (error, stackTrace) => Center(child: Text('Error :$error'),),
+        loading: () => Center(child: CircularProgressIndicator(),),
     );
   }
 }
@@ -302,6 +236,91 @@ class _IconSearch extends StatelessWidget {
           ),
         ),
       ), icon: Icon(Icons.search),
+    );
+  }
+}
+
+
+
+class EndDrawer extends ConsumerWidget {
+  const EndDrawer({ super.key,  });
+
+  @override
+  Widget build(BuildContext context, ref) {
+
+    final cartItems = ref.watch( cartProvider );
+    final textStyle = Theme.of(context).textTheme.titleLarge;
+
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Text('Cart', style: TextStyle( fontSize: 30, fontWeight: FontWeight.bold ),),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: FilledButton(
+                style: ButtonStyle(
+                    shape: WidgetStatePropertyAll(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadiusGeometry.circular(7)
+                        )
+                    )
+                ),
+                onPressed: (){
+                  ref.read( cartProvider.notifier ).clearItems();
+                },
+                child: Text('Clear')
+            ),
+          ),
+
+          cartItems.isEmpty
+            ? Center(child: Text('No items yet', style: textStyle,))
+            : SizedBox(
+              height: MediaQuery.of(context).size.height * 0.7,
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: cartItems.length,
+                itemBuilder: (context, index) {
+                  final product = cartItems[index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                    horizontal: 20, vertical: 10),
+                    child: ItemCard(productId: product.id, name: product.title, imageUrl: product.images.first, price: product.price,),
+                  );
+                }
+              ),
+            ),
+
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.08,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: cartItems.isNotEmpty
+                  ? FilledButton(
+                    style: ButtonStyle(
+                        shape: WidgetStatePropertyAll(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadiusGeometry.circular(7)
+                            )
+                        )
+                    ),
+                    onPressed: (){
+                      context.pop();
+                      context.go('/home/1');
+                    },
+                    child: Text('Check out')
+                )
+                : null,
+              ),
+
+            )
+
+        ],
+      ),
     );
   }
 }

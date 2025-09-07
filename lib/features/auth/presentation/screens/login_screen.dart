@@ -1,9 +1,9 @@
 
-import 'package:animate_do/animate_do.dart';
-import 'package:ecommerce_platzi/features/auth/presentation/providers/auth_privider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:animate_do/animate_do.dart';
+
+import 'package:ecommerce_platzi/features/auth/presentation/providers/auth_privider.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -22,7 +22,22 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
 
-    final status = ref.watch( authNotifierProvider );
+    ref.listen<AuthStatus>( authNotifierProvider, (previous, next) {
+        if (next == AuthStatus.unauthenticated) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Error in credentials')),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              content: Text('Welcome!!'),
+            ),
+          );
+        }
+      },
+    );
 
     return Scaffold(
 
@@ -97,12 +112,11 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                   onPressed: () {
                     if( _formKey.currentState!.validate() ) {
-                      ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar( duration: Duration(milliseconds: 500), content: Text('Processing Data')),
+                      ref.read(authNotifierProvider.notifier).login(
+                        emailController.text,
+                        passwordController.text,
                       );
                     }
-                    ref.read( authNotifierProvider.notifier ).login(emailController.text, passwordController.text);
                   },
                   child: Text('Log in')
                 )

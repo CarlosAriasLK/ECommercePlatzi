@@ -1,42 +1,33 @@
 
 
+import 'package:ecommerce_platzi/features/store/presentation/providers/product_provider.dart';
 import 'package:ecommerce_platzi/features/store/presentation/widgets/shared/custom_list_tile.dart';
 import 'package:flutter/material.dart';
-
-
-final clothesCartView = [
-  'https://i.imgur.com/ZKGofuB.jpeg',
-  'https://i.imgur.com/wXuQ7bm.jpeg',
-  'https://i.imgur.com/R3iobJA.jpeg',
-  'https://i.imgur.com/9LFjwpI.jpeg',
-];
-
-class CartView extends StatelessWidget {
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+class CartView extends ConsumerWidget {
   const CartView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cartItems = ref.watch(cartProvider);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cart view'),
+        title: const Text('Shopping Cart', style: TextStyle( fontWeight: FontWeight.bold ),),
       ),
 
-      body: CustomScrollView(
-        slivers: [
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        child: CustomListTile(cartItems: cartItems),
+      ),
 
-          SliverList(
-              delegate: SliverChildBuilderDelegate(
-                childCount: clothesCartView.length,
-                (context, index) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: CustomListTile(index: index),
-                ),
-              )
-          )  
-
-        ],
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16),
+        child: FilledButton(
+          onPressed: () {},
+          child: const Text('Check out'),
+        ),
       ),
     );
   }
 }
-

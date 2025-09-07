@@ -1,5 +1,4 @@
 
-import 'package:ecommerce_platzi/features/store/presentation/widgets/shared/item_card.dart';
 import 'package:flutter/material.dart';
 
 final clothesFavorites = [
@@ -16,7 +15,7 @@ class FavoriteView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Favorite'),
+        title: const Text('Favorite Products', style: TextStyle( fontWeight: FontWeight.bold ),),
       ),
 
       body: CustomScrollView(

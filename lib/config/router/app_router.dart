@@ -47,7 +47,10 @@ GoRouter appRouter(Ref ref){
 
         GoRoute(
           path: '/products-details/:id',
-          builder: (context, state) => ProductDetails(),
+          builder: (context, state) {
+            final productId = int.parse( state.pathParameters['id'] ?? '1' );
+            return ProductDetails(productId: productId,);
+          },
         ),
 
       ]

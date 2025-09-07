@@ -7,20 +7,68 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'product_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-class Products extends _$Products {
+Future<List<Product>> getAllProducts(Ref ref) async{
+  final repository = ref.watch( productRepositoryProvider );
+  return await repository.getAllProducts();
+}
+
+@Riverpod(keepAlive: true)
+Future<List<Product>> loadProductByCategory(Ref ref, String slug) async{
+  final repository = ref.watch( productRepositoryProvider );
+  return await repository.getProductsByCategory(slug);
+}
+
+@Riverpod(keepAlive: true)
+Future<Product> getProductById(Ref ref, int id) {
+  final repository = ref.watch( productRepositoryProvider );
+  return repository.getProductById(id);
+}
+
+
+@Riverpod(keepAlive: true)
+class Cart extends _$Cart {
 
   @override
-  Future<List<Product>> build() async {
-    final products = ref.watch( productRepositoryProvider );
-    return products.getAllProducts();
+  List<Product> build() {
+    return [];
   }
 
-  Future<List<Product>> loadProductByCategory( String slug ) async{
-    try {
-      return await ref.watch( productRepositoryProvider ).getProductsByCategory(slug);
-    } catch (e) {
-      throw Exception('Error: $e');
-    }
+  void addToCart( Product newProduct ){
+    state = [ ...state, newProduct ];
   }
+
+  void removeToCart( int productId ) {
+    state = state.where((item) => item.id != productId ).toList();
+  }
+
+  void increaseItem( int productId ) {
+    state = state.map<Product>( ( item ) => item.id == productId
+        ? item.copyWith( quantity: item.quantity + 1 )
+        : item
+    ).toList();
+  }
+
+  void decreaseItem( int productId ) {
+    state = state.map<Product>( ( item ) => item.id == productId && item.quantity > 1
+        ? item.copyWith( quantity: item.quantity - 1 )
+        : item
+    ).toList();
+  }
+
+  void clearItems(){
+    state = [];
+  }
+
 }
+
+
+
+
+
+
+
+
+
+
+
 

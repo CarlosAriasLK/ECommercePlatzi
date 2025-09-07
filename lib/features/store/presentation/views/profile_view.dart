@@ -4,6 +4,8 @@ import 'package:ecommerce_platzi/features/auth/presentation/providers/auth_privi
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:go_router/go_router.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileView extends ConsumerWidget {
   const ProfileView({super.key});
@@ -64,7 +66,7 @@ class ProfileView extends ConsumerWidget {
                         borderRadius: BorderRadiusGeometry.circular(7)
                       ),
                       title: Text('Home'),
-                      trailing: IconButton(onPressed: (){}, icon: Icon(Icons.arrow_forward_ios_rounded)),
+                      trailing: IconButton(onPressed: (){ context.go('/home/0');}, icon: Icon(Icons.arrow_forward_ios_rounded)),
                     ),
 
                     SizedBox(height: 15,),
@@ -74,7 +76,7 @@ class ProfileView extends ConsumerWidget {
 
                       ),
                       title: Text('Shopping cart'),
-                      trailing: IconButton(onPressed: (){}, icon: Icon(Icons.arrow_forward_ios_rounded)),
+                      trailing: IconButton(onPressed: (){ context.go('/home/1');}, icon: Icon(Icons.arrow_forward_ios_rounded)),
                     ),
                     SizedBox(height: 15,),
                     ListTile(
@@ -83,7 +85,7 @@ class ProfileView extends ConsumerWidget {
 
                       ),
                       title: Text('Favorite Products'),
-                      trailing: IconButton(onPressed: (){}, icon: Icon(Icons.arrow_forward_ios_rounded)),
+                      trailing: IconButton(onPressed: (){ context.go('/home/2');}, icon: Icon(Icons.arrow_forward_ios_rounded)),
                     ),
 
                     Spacer(),
@@ -95,7 +97,7 @@ class ProfileView extends ConsumerWidget {
                       title: Text('Log Out'),
                       trailing: IconButton(
                         onPressed: (){
-                          ref.read( authNotifierProvider.notifier ).logout();
+                          ref.read( authNotifierProvider.notifier ).logout(message: 'Logout Successful!!');
                         },
                         icon: Icon(Icons.arrow_forward_ios_rounded)),
                     ),

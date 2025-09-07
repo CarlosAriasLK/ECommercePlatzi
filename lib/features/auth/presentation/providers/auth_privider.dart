@@ -3,6 +3,7 @@
 
 
 import 'package:ecommerce_platzi/features/auth/presentation/providers/repository_provider.dart';
+import 'package:ecommerce_platzi/features/shared/infrastructure/errors/custom_error.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_privider.g.dart';
@@ -32,17 +33,22 @@ class AuthNotifier extends _$AuthNotifier {
   }
 
   Future<void> login(String email, String password) async{
+    try {
       final token = await ref.read( repositoryProvider ).login(email, password);
       if( token != null) {
         state = AuthStatus.authenticated;
       } else {
         state = AuthStatus.unauthenticated;
       }
+    } on CustomError catch(e) {
+      logout(message:  e.error );
+    }
   }
 
-  Future<void> logout() async{
+  Future<String> logout({String? message}) async{
     await ref.read( repositoryProvider ).logout();
     state = AuthStatus.unauthenticated;
+    return message ?? '';
   }
 
 }
