@@ -1,6 +1,7 @@
 
 
 import 'package:animate_do/animate_do.dart';
+import 'package:ecommerce_platzi/features/store/presentation/providers/favorite_products_provider.dart';
 import 'package:ecommerce_platzi/features/store/presentation/providers/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,7 +44,19 @@ class ProductDetails extends ConsumerWidget {
                               )
                           ),
                           Spacer(),
-                          SizedBox(width: MediaQuery.of(context).size.width * 0.1, child: IconButton(onPressed: (){}, icon: Icon(Icons.favorite_outline)))
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.1,
+                            child: IconButton(
+                              icon: Icon( Icons.favorite_outline
+                                  // isFavorite
+                                  // ? Icons.favorite_outline
+                                  // : Icons.favorite
+                              ),
+                              onPressed: (){
+                                ref.read( favoriteProductsProvider.notifier ).toggleFavorite( product );
+                              },
+                            )
+                          )
                         ],
                       ),
                     ),

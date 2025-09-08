@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 class Product {
 
   final int id;
@@ -19,6 +21,27 @@ class Product {
     slug: json['slug'],
     images: json['slug'] != null ? List<String>.from( json['images']) : ['https://cdn-icons-png.freepik.com/512/2748/2748558.png']
   );
+
+  factory Product.fromMap( Map<String, dynamic > map ) => Product(
+    id: map['id'],
+    title: map['title'],
+    price: map['price'],
+    description: map['description'],
+    slug: map['slug'],
+    images: map['slug'] != null ? List<String>.from( map['images']) : ['https://cdn-icons-png.freepik.com/512/2748/2748558.png']
+  );
+
+  Map<String, dynamic> toMap(){
+    return {
+      "id": id,
+      "title": title,
+      "price": price,
+      "description": description,
+      "slug": slug,
+      "images": jsonEncode(images),
+      "quantity": quantity
+    };
+  }
 
   copyWith({
     int? id,
