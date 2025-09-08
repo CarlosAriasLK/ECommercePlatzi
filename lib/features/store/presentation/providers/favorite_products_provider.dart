@@ -17,7 +17,12 @@ class FavoriteProducts extends _$FavoriteProducts {
 
   @override
   Future<List<Product>> build() async{
-    return await showProducts();
+    return await _loadFavoriteProducts();
+  }
+
+  Future<List<Product>> _loadFavoriteProducts() async{
+    final repository = ref.watch( localStorageRepositoryProvider );
+    return await repository.showProducts();
   }
 
   Future<bool> isToggleFavorite( int productId ) async{
@@ -25,14 +30,13 @@ class FavoriteProducts extends _$FavoriteProducts {
     return await repository.isToggleFavorite( productId );
   }
 
-  Future<List<Product>> showProducts() async{
-    final repository = ref.watch( localStorageRepositoryProvider );
-    return await repository.showProducts();
-  }
+  Future<void> toggleFavorite(Product product) async {
+    final repository = ref.read(localStorageRepositoryProvider);
 
-  Future<void> toggleFavorite( Product product ) async{
-    final repository = ref.watch( localStorageRepositoryProvider );
-    return await repository.toggleFavorite(product);
+    await repository.toggleFavorite(product);
+
+    final updatedFavorites = await _loadFavoriteProducts();
+    state = AsyncData(updatedFavorites);
   }
 
 }

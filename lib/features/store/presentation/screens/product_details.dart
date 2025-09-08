@@ -14,6 +14,7 @@ class ProductDetails extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
 
     final asyncProductById = ref.watch( getProductByIdProvider( productId ) );
+    final isFavoriteProduct = ref.watch( favoriteProductsProvider.notifier ).isToggleFavorite(productId);
 
     return Scaffold(
       appBar: AppBar(
@@ -44,18 +45,30 @@ class ProductDetails extends ConsumerWidget {
                               )
                           ),
                           Spacer(),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.1,
-                            child: IconButton(
-                              icon: Icon( Icons.favorite_outline
-                                  // isFavorite
-                                  // ? Icons.favorite_outline
-                                  // : Icons.favorite
-                              ),
-                              onPressed: (){
-                                ref.read( favoriteProductsProvider.notifier ).toggleFavorite( product );
-                              },
-                            )
+
+                          FutureBuilder(
+                            future: isFavoriteProduct,
+                            builder: (context, snapshot) {
+
+                              final isFavorite = snapshot.data ?? false;
+
+                              return SizedBox(
+                                  width: MediaQuery.of(context).size.width * 0.1,
+                                  child: IconButton(
+                                    icon: Icon(
+                                      color: Colors.red,
+                                      isFavorite
+                                      ? Icons.favorite
+                                      : Icons.favorite_outline
+                                    ),
+                                    onPressed: (){
+                                      ref.read( favoriteProductsProvider.notifier ).toggleFavorite( product );
+
+                                    },
+                                  )
+                              );
+
+                            },
                           )
                         ],
                       ),

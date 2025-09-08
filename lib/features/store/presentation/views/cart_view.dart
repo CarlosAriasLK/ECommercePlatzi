@@ -25,7 +25,7 @@ class CartView extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         child: FilledButton(
           onPressed: () {},
-          child: const Text('Check out'),
+          child: const Text('Buy'),
         ),
       ),
     );

@@ -28,7 +28,7 @@ class Product {
     price: map['price'],
     description: map['description'],
     slug: map['slug'],
-    images: map['slug'] != null ? List<String>.from( map['images']) : ['https://cdn-icons-png.freepik.com/512/2748/2748558.png']
+    images: map['images'].split(',')
   );
 
   Map<String, dynamic> toMap(){
@@ -38,7 +38,7 @@ class Product {
       "price": price,
       "description": description,
       "slug": slug,
-      "images": jsonEncode(images),
+      "images": images.join(','),
       "quantity": quantity
     };
   }

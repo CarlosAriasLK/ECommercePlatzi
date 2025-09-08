@@ -25,7 +25,6 @@ class LocalStorageDatasourceImpl implements LocalStorageDatasource {
   Future<List<Product>> showProducts() async{
     final dbInstance = await db.database;
     final response = await dbInstance.query('products');
-
     return response.map( (item) => Product.fromMap( item ) ).toList();
   }
 
@@ -40,18 +39,11 @@ class LocalStorageDatasourceImpl implements LocalStorageDatasource {
       limit: 1,
     );
 
-    if (response.isEmpty) {
-      await dbInstance.insert(
-        'products',
-        product.toMap(),
-      );
-    } else {
-      await dbInstance.delete(
-        'products',
-        where: 'id = ?',
-        whereArgs: [product.id],
-      );
+    if (response.isNotEmpty) {
+      await dbInstance.delete( 'products', where: 'id = ?', whereArgs: [product.id] );
+      return;
     }
+    await dbInstance.insert( 'products', product.toMap() );
   }
 
 }
