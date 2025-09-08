@@ -34,7 +34,7 @@ class ProductDetails extends ConsumerWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         children: [
-                          SizedBox( width: MediaQuery.of(context).size.width * 0.8,
+                          SizedBox( width: MediaQuery.of(context).size.width * 0.7,
                             child: Text(
                               product.title,
                               style: TextStyle(

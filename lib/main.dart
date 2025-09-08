@@ -1,6 +1,5 @@
 import 'package:ecommerce_platzi/config/router/app_router.dart';
 import 'package:ecommerce_platzi/config/theme/app_theme.dart';
-import 'package:ecommerce_platzi/features/auth/presentation/providers/auth_privider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

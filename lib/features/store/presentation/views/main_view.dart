@@ -1,5 +1,6 @@
 
 import 'package:card_swiper/card_swiper.dart';
+import 'package:ecommerce_platzi/features/store/domain/entities/product.dart';
 import 'package:ecommerce_platzi/features/store/presentation/providers/product_provider.dart';
 import 'package:ecommerce_platzi/features/store/presentation/widgets/shared/item_card.dart';
 import 'package:flutter/material.dart';
@@ -130,11 +131,14 @@ class _CollectionSlide extends ConsumerWidget {
             autoplay: true,
             itemBuilder: (context, index) {
               final product = products[index];
-              return Padding(
-                padding: EdgeInsetsGeometry.symmetric(horizontal: 10),
-                child: FadeInImage(
-                  placeholder: AssetImage('assets/images/not-found.jpg'),
-                  image: NetworkImage(product.images.first),
+              return GestureDetector(
+                onTap: () => context.push('/products-details/${product.id}'),
+                child: Padding(
+                  padding: EdgeInsetsGeometry.symmetric(horizontal: 10),
+                  child: FadeInImage(
+                    placeholder: AssetImage('assets/images/not-found.jpg'),
+                    image: NetworkImage(product.images.first),
+                  ),
                 ),
               );
             },
@@ -183,59 +187,59 @@ class _CustomListViewStore extends ConsumerWidget {
 }
 
 
-
-class Person {
-  final String name;
-  final String reference;
-  final int price;
-
-  Person(this.name, this.reference, this.price);
-}
-
-final people = [
-  Person('Jeans', 'break', 120),
-  Person('Jeans', 'break', 120),
-  Person('Jeans', 'break', 120),
-];
-
-class _IconSearch extends StatelessWidget {
+class _IconSearch extends ConsumerWidget {
   const _IconSearch();
 
   @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: () => showSearch(
-        context: context,
-        delegate: SearchPage<Person>(
-          items: people,
-          searchLabel: 'Search Product',
-          suggestion: Center(
-            child: Text('Filter product by name, reference or price'),
-          ),
-          failure: Center(
-            child: Text('No product found'),
-          ),
-          filter: (person) => [
-            person.name,
-            person.reference,
-            person.price.toString(),
-          ],
-          builder: (person) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-            child: GestureDetector(
-              onTap: () => context.push('/products-details/1'),
-              child: ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadiusGeometry.circular(7)
+  Widget build(BuildContext context, ref) {
+
+    final asyncProducst = ref.watch( getAllProductsProvider );
+
+    return asyncProducst.when(
+        data: (products) {
+          return IconButton(
+            onPressed: () => showSearch(
+              context: context,
+              delegate: SearchPage<Product>(
+                items: products,
+                searchLabel: 'Search Product',
+                suggestion: Center(
+                  child: Text('Filter product by name or price'),
                 ),
-                title: Text(person.name),
-                subtitle: Text(person.reference),
-                trailing: Text('${person.price} '),
+                failure: Center(
+                  child: Text('No product found'),
+                ),
+                filter: (product) => [
+                  product.title,
+                  product.price.toString(),
+                ],
+                builder: (product) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  child: GestureDetector(
+                    onTap: () => context.push('/products-details/${product.id}'),
+                    child: ListTile(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadiusGeometry.circular(7)
+                      ),
+                      leading: ClipRRect(
+                        borderRadius: BorderRadiusGeometry.circular(7),
+                        child: FadeInImage(
+                          fit: BoxFit.cover,
+                          placeholder: AssetImage('assets/images/not-found.jpg'),
+                          image: NetworkImage( product.images.first)
+                        ),
+                      ),
+                      title: Text(product.title),
+                      trailing: Text(product.price.toString()),
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
-      ), icon: Icon(Icons.search),
+            ), icon: Icon(Icons.search),
+          );
+        },
+        error: (error, stackTrace) => Center(child: Text('Error $error'),),
+        loading: () => Center(child: CircularProgressIndicator(),),
     );
   }
 }
@@ -278,7 +282,10 @@ class EndDrawer extends ConsumerWidget {
           ),
 
           cartItems.isEmpty
-            ? Center(child: Text('No items yet', style: textStyle,))
+            ? Center(child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Text('No items yet', style: textStyle,),
+            ))
             : SizedBox(
               height: MediaQuery.of(context).size.height * 0.7,
               child: ListView.builder(

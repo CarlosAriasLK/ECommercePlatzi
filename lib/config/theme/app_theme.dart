@@ -17,7 +17,7 @@ class AppTheme {
     ),
 
     listTileTheme: ListTileThemeData(
-      tileColor: Colors.blueGrey.shade200
+      tileColor: Color(0xFFD2D7EC)
     )
 
   );
