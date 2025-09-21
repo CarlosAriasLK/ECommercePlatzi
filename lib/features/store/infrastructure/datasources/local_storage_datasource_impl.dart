@@ -1,8 +1,8 @@
 
 
-import 'package:ecommerce_platzi/config/database/db.dart';
-import 'package:ecommerce_platzi/features/store/domain/datasources/local_storage_datasource.dart';
-import 'package:ecommerce_platzi/features/store/domain/entities/product.dart';
+import 'package:ECommprarse/config/database/db.dart';
+import 'package:ECommprarse/features/store/domain/datasources/local_storage_datasource.dart';
+import 'package:ECommprarse/features/store/domain/entities/product.dart';
 
 class LocalStorageDatasourceImpl implements LocalStorageDatasource {
 

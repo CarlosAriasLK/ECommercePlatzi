@@ -1,7 +1,7 @@
 
 
 
-import 'package:ecommerce_platzi/features/shared/infrastructure/token_storage.dart';
+import 'package:ECommprarse/features/shared/infrastructure/token_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesImpl implements TokenStorage {

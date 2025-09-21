@@ -2,8 +2,8 @@
 
 
 
-import 'package:ecommerce_platzi/features/auth/presentation/providers/repository_provider.dart';
-import 'package:ecommerce_platzi/features/shared/infrastructure/errors/custom_error.dart';
+import 'package:ECommprarse/features/auth/presentation/providers/repository_provider.dart';
+import 'package:ECommprarse/features/shared/infrastructure/errors/custom_error.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_privider.g.dart';

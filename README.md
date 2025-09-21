@@ -1,4 +1,4 @@
-# ecommerce_platzi
+# ECommprarse
 
 E-Commerce ussing the Platzi App
 
@@ -14,7 +14,7 @@ dart run build_runner watch -d
 ## To change the app name
 
 ```
-dart run change_app_package_name:main com.carlosarias.eCommerce
+dart run change_app_package_name:main com.carlosarias.ecommprarse
 ```
 
 ## To change de icon app

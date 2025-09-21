@@ -1,7 +1,7 @@
 
 
-import 'package:ecommerce_platzi/features/store/presentation/providers/product_provider.dart';
-import 'package:ecommerce_platzi/features/store/presentation/widgets/shared/custom_list_tile.dart';
+import 'package:ECommprarse/features/store/presentation/providers/product_provider.dart';
+import 'package:ECommprarse/features/store/presentation/widgets/shared/custom_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 class CartView extends ConsumerWidget {

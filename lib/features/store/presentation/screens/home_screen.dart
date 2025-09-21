@@ -1,8 +1,8 @@
 
 
 
-import 'package:ecommerce_platzi/features/store/presentation/views/views.dart';
-import 'package:ecommerce_platzi/features/store/presentation/widgets/shared/custom_bottom_navigation_bar.dart';
+import 'package:ECommprarse/features/store/presentation/views/views.dart';
+import 'package:ECommprarse/features/store/presentation/widgets/shared/custom_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {

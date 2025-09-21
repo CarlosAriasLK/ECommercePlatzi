@@ -1,9 +1,9 @@
 
 
 
-import 'package:ecommerce_platzi/features/store/domain/datasources/local_storage_datasource.dart';
-import 'package:ecommerce_platzi/features/store/domain/entities/product.dart';
-import 'package:ecommerce_platzi/features/store/domain/repositories/local_storage_repositorie.dart';
+import 'package:ECommprarse/features/store/domain/datasources/local_storage_datasource.dart';
+import 'package:ECommprarse/features/store/domain/entities/product.dart';
+import 'package:ECommprarse/features/store/domain/repositories/local_storage_repositorie.dart';
 
 class LocalStorageRepositoryImpl implements LocalStorageRepositorie {
 

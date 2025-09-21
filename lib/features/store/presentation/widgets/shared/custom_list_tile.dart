@@ -1,7 +1,7 @@
 
 import 'package:animate_do/animate_do.dart';
-import 'package:ecommerce_platzi/features/store/domain/entities/product.dart';
-import 'package:ecommerce_platzi/features/store/presentation/providers/product_provider.dart';
+import 'package:ECommprarse/features/store/domain/entities/product.dart';
+import 'package:ECommprarse/features/store/presentation/providers/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

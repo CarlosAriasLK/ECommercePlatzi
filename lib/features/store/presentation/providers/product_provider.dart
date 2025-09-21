@@ -1,6 +1,6 @@
 
-import 'package:ecommerce_platzi/features/store/domain/entities/product.dart';
-import 'package:ecommerce_platzi/features/store/presentation/providers/product_repository_provider.dart';
+import 'package:ECommprarse/features/store/domain/entities/product.dart';
+import 'package:ECommprarse/features/store/presentation/providers/product_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

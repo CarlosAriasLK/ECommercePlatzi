@@ -1,7 +1,7 @@
 
 
 
-import 'package:ecommerce_platzi/features/store/domain/entities/product.dart';
+import 'package:ECommprarse/features/store/domain/entities/product.dart';
 
 abstract class ProductsDatasources {
 

@@ -1,5 +1,5 @@
-import 'package:ecommerce_platzi/config/router/app_router.dart';
-import 'package:ecommerce_platzi/config/theme/app_theme.dart';
+import 'package:ECommprarse/config/router/app_router.dart';
+import 'package:ECommprarse/config/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:animate_do/animate_do.dart';
 
-import 'package:ecommerce_platzi/features/auth/presentation/providers/auth_privider.dart';
+import 'package:ECommprarse/features/auth/presentation/providers/auth_privider.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -47,11 +47,11 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 60,),
-
-            Center(child: Text('EcoMprarse', style: TextStyle( fontSize: 50, fontWeight: FontWeight.bold),)),
-
             SizedBox(height: 100,),
+
+            Center(child: Text('ECommprarse', style: TextStyle( fontSize: 40, fontWeight: FontWeight.bold),)),
+
+            SizedBox(height: 80,),
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40),

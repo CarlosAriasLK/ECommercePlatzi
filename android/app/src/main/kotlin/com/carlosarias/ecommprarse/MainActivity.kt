@@ -1,4 +1,4 @@
-package com.carlosarias.eCommerce
+package com.carlosarias.ecommprarse
 
 import io.flutter.embedding.android.FlutterActivity
 

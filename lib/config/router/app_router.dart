@@ -1,9 +1,9 @@
 
 
 
-import 'package:ecommerce_platzi/features/auth/presentation/providers/auth_privider.dart';
-import 'package:ecommerce_platzi/features/auth/presentation/screens/login_screen.dart';
-import 'package:ecommerce_platzi/features/store/presentation/screens/screens.dart';
+import 'package:ECommprarse/features/auth/presentation/providers/auth_privider.dart';
+import 'package:ECommprarse/features/auth/presentation/screens/login_screen.dart';
+import 'package:ECommprarse/features/store/presentation/screens/screens.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

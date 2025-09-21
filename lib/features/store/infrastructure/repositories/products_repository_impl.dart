@@ -1,8 +1,8 @@
 
 
-import 'package:ecommerce_platzi/features/store/domain/datasources/products_datasources.dart';
-import 'package:ecommerce_platzi/features/store/domain/entities/product.dart';
-import 'package:ecommerce_platzi/features/store/domain/repositories/products_repositories.dart';
+import 'package:ECommprarse/features/store/domain/datasources/products_datasources.dart';
+import 'package:ECommprarse/features/store/domain/entities/product.dart';
+import 'package:ECommprarse/features/store/domain/repositories/products_repositories.dart';
 
 class ProductsRepositoryImpl implements ProductsRepositories {
 

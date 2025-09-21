@@ -1,7 +1,7 @@
 
 
-import 'package:ecommerce_platzi/features/auth/domain/datasources/user_datasources.dart';
-import 'package:ecommerce_platzi/features/auth/domain/repositories/user_repositories.dart';
+import 'package:ECommprarse/features/auth/domain/datasources/user_datasources.dart';
+import 'package:ECommprarse/features/auth/domain/repositories/user_repositories.dart';
 
 class UserRepositoriesImpl implements UserRepositories {
 

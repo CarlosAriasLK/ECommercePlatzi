@@ -2,8 +2,8 @@
 
 
 import 'package:dio/dio.dart';
-import 'package:ecommerce_platzi/features/store/domain/datasources/products_datasources.dart';
-import 'package:ecommerce_platzi/features/store/domain/entities/product.dart';
+import 'package:ECommprarse/features/store/domain/datasources/products_datasources.dart';
+import 'package:ECommprarse/features/store/domain/entities/product.dart';
 
 class ProductsDatasourceImpl implements ProductsDatasources {
 

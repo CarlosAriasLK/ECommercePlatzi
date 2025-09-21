@@ -14,10 +14,13 @@ class AppTheme {
       titleSmall: GoogleFonts.montserratAlternates(),
       titleMedium: GoogleFonts.montserratAlternates(),
       titleLarge: GoogleFonts.montserratAlternates(),
+      bodySmall: GoogleFonts.montserratAlternates(),
+      bodyMedium: GoogleFonts.montserratAlternates(),
+      bodyLarge: GoogleFonts.montserratAlternates(),
     ),
 
     listTileTheme: ListTileThemeData(
-      tileColor: Color(0xFFD2D7EC)
+      tileColor: Color(0xFFD2D7EC),
     )
 
   );
