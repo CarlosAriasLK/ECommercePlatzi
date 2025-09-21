@@ -14,8 +14,8 @@ class LoginScreen extends ConsumerStatefulWidget {
 
 class LoginScreenState extends ConsumerState<LoginScreen> {
 
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final emailController = 'admin@mail.com';
+  final passwordController = 'admin123';
 
   final _formKey = GlobalKey<FormState>();
 
@@ -66,7 +66,8 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                 child: Column(
                   children: [
                     TextFormField(
-                      controller: emailController,
+                      // controller: emailController,
+                      initialValue: emailController,
                       decoration: InputDecoration(
                         label: Text('Email'),
                         border: OutlineInputBorder()
@@ -79,7 +80,8 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                     SizedBox(height: 10,),
                     TextFormField(
-                      controller: passwordController,
+                      // controller: passwordController,
+                      initialValue: passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
                         label: Text('Password'),
@@ -113,8 +115,8 @@ class LoginScreenState extends ConsumerState<LoginScreen> {
                   onPressed: () {
                     if( _formKey.currentState!.validate() ) {
                       ref.read(authNotifierProvider.notifier).login(
-                        emailController.text,
-                        passwordController.text,
+                        emailController,
+                        passwordController,
                       );
                     }
                   },

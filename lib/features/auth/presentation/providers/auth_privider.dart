@@ -33,8 +33,10 @@ class AuthNotifier extends _$AuthNotifier {
   }
 
   Future<void> login(String email, String password) async{
+
     try {
       final token = await ref.read( repositoryProvider ).login(email, password);
+
       if( token != null) {
         state = AuthStatus.authenticated;
       } else {

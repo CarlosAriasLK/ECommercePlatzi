@@ -86,11 +86,20 @@ class ProductDetails extends ConsumerWidget {
                             return Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 10),
                               child: ClipRRect(
-                                borderRadius: BorderRadiusGeometry.circular(7),
-                                child: FadeInImage(
+                                borderRadius: BorderRadius.circular(7),
+                                child: index == 0
+                                    ? Hero(
+                                  tag: 'productdetails-$productId',
+                                  child: FadeInImage(
+                                    fit: BoxFit.cover,
+                                    placeholder: AssetImage('assets/images/not-found.jpg'),
+                                    image: NetworkImage(image),
+                                  ),
+                                )
+                                    : FadeInImage(
                                   fit: BoxFit.cover,
                                   placeholder: AssetImage('assets/images/not-found.jpg'),
-                                  image: NetworkImage( image )
+                                  image: NetworkImage(image),
                                 ),
                               ),
                             );

@@ -28,10 +28,13 @@ class ItemCard extends ConsumerWidget {
               Expanded(
                 child: ClipRRect(
                   borderRadius: const BorderRadius.vertical(top: Radius.circular(7)),
-                  child: FadeInImage(
-                    fit: BoxFit.cover,
-                    placeholder: const AssetImage('assets/images/not-found.jpg'),
-                    image: NetworkImage( imageUrl ),
+                  child: Hero(
+                    tag: 'productdetails-$productId',
+                    child: FadeInImage(
+                      fit: BoxFit.cover,
+                      placeholder: const AssetImage('assets/images/not-found.jpg'),
+                      image: NetworkImage( imageUrl ),
+                    )
                   ),
                 ),
               ),
