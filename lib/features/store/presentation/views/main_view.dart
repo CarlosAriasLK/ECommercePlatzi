@@ -53,19 +53,19 @@ class MainView extends StatelessWidget {
 
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                        child: Text('Shoes', style: TextStyle( fontWeight: FontWeight.bold, fontSize: 17 ),),
+                        child: Text('Clothes', style: TextStyle( fontWeight: FontWeight.bold, fontSize: 17 ),),
                       ),
                       _CustomListViewStore(slug: '1',),
 
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                        child: Text('Forniture', style: TextStyle( fontWeight: FontWeight.bold, fontSize: 17 ),),
+                        child: Text('Electronics', style: TextStyle( fontWeight: FontWeight.bold, fontSize: 17 ),),
                       ),
                       _CustomListViewStore(slug: '2',),
 
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                        child: Text('Electronics', style: TextStyle( fontWeight: FontWeight.bold, fontSize: 17 ),),
+                        child: Text('Forniture', style: TextStyle( fontWeight: FontWeight.bold, fontSize: 17 ),),
                       ),
                       _CustomListViewStore(slug: '3',),
 
