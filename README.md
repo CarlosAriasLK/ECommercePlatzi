@@ -1,10 +1,10 @@
 # ECommprarse
 
-E-Commerce usando la API de Platzi Fake Store
+E-Commerce usando la API de Platzi
 
 ## 📱 Descripción
 
-Aplicación móvil de comercio electrónico desarrollada en Flutter que consume la API de Platzi Fake Store. Permite a los usuarios navegar por productos, gestionar un carrito de compras, y realizar autenticación de usuarios.
+Aplicación móvil de comercio electrónico desarrollada en Flutter que consume la API de Platzi. Permite a los usuarios navegar por productos, gestionar un carrito de compras, y realizar autenticación de usuarios.
 
 ## 🚀 Tecnologías Utilizadas
 
@@ -177,12 +177,3 @@ lib/
     │   └── presentation/
     └── shared/         # Componentes compartidos
 ```
-
-## 👨‍💻 Autor
-
-**Carlos Arias**
-- GitHub: [@CarlosAriasLK](https://github.com/CarlosAriasLK)
-
-## 📄 Licencia
-
-Este proyecto es de código abierto y está disponible bajo la licencia MIT.
